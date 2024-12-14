@@ -5,6 +5,9 @@ import glob
 import os
 from datetime import datetime
 
+# set the update/upload interval
+UPDATE_INTERVAL = 10 # default: every 10s
+
 firstErrorTime = ""
 errorCount = 0
 execTime = datetime.now().strftime("%Y%M%d%H%M%S")
@@ -13,6 +16,7 @@ execTime = datetime.now().strftime("%Y%M%d%H%M%S")
 def post_message(msg, url):
     global firstErrorTime
     global errorCount
+    global execTime
     data = ""
     if type(msg) is str:
         data = json.dumps({"content": msg}, separators=(',', ':'))
@@ -170,4 +174,4 @@ while True:
                 if linesToPost != "":
                     post_message(linesToPost, entry["channel_webhook"])
         index = index + 1
-    time.sleep(1)
+    time.sleep(UPDATE_INTERVAL)
